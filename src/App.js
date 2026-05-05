@@ -812,6 +812,26 @@ const clusterLabels = {
   contemporary:     "Contemporary",
 };
 
+const clusterSummaries = {
+  ancient: "Foundational Greek thinkers from the Pre-Socratics through Aristotle, who established philosophy's core questions about being, knowledge, ethics, and the good life through dialogue and rational inquiry.",
+  eastern: "Daoist, Confucian, Buddhist, and modern Japanese traditions teaching wisdom through harmony with nature, ethical relationships, the emptiness of phenomena, and the unity of pure experience.",
+  stoic: "A practical philosophy from Hellenistic Greece and Rome: virtue alone is sufficient for happiness; distinguish what is in our power from what is not; reason connects all rational beings.",
+  medieval: "Christian, Islamic, and Jewish thinkers who synthesized ancient philosophy with revealed religion — debating faith and reason, the nature of God, universals, and the structure of being.",
+  rationalist: "17th-century thinkers (Descartes, Spinoza, Leibniz, Kant) who held that reason — not the senses alone — is the primary source of knowledge, building ambitious metaphysical systems on a priori foundations.",
+  earlymodern: "The intellectual revolution from the Renaissance through the Enlightenment: empiricism, the scientific method, social contract theory, and the foundations of modern political liberalism.",
+  "german-idealism": "Post-Kantian philosophy (Hegel, Schopenhauer, Marx, Nietzsche, Kierkegaard) wrestling with consciousness, history, will, and reality — often through dialectical or revolutionary frameworks.",
+  history: "Thinkers who treat history itself as a philosophical subject, asking how human collectivities make and interpret the past and what large patterns reveal about human nature.",
+  psychoanalysis: "Beginning with Freud, the investigation of unconscious drives, repression, the formation of the self, and the symbolic structures of desire — reshaping philosophy, literature, and feminism.",
+  analytic: "The Anglo-American tradition emphasizing logical clarity, philosophy of language, and rigorous argumentation — from Frege and Russell through Wittgenstein and Quine to contemporary political philosophy.",
+  frankfurt: "Critical theorists (Adorno, Marcuse, Benjamin, Habermas) who fused Marx, Hegel, and Freud to diagnose how culture, ideology, and technology produce conformity in advanced capitalism.",
+  existential: "From Husserl and Heidegger through Sartre, Beauvoir, and Levinas: the rigorous study of lived experience and the human condition — freedom, anxiety, embodiment, and responsibility to the Other.",
+  poststructural: "French thinkers (Foucault, Derrida, Deleuze, Lacan) who interrogated how power, language, and difference construct knowledge and the subject — refusing stable structures and foundations.",
+  postcolonial: "Thinkers (Fanon, Said, Spivak, Mbembe) who analyze how colonialism shapes consciousness, knowledge, and global power — and what genuine decolonization of mind and politics would require.",
+  cultural: "Public intellectuals who turn philosophical attention to images, art, illness, war, and everyday life as serious objects of theoretical reflection.",
+  critical: "Feminist, Black feminist, and queer theorists who expose how gender, race, sexuality, and class intersect to produce oppression — and how identity, performance, and solidarity might transform it.",
+  contemporary: "Living and recent philosophers across virtue ethics, capabilities, communitarianism, animal rights, technology, and political economy — bringing philosophy to bear on urgent present problems.",
+};
+
 const positions = {
   // Eastern — top-left lane
   laozi:        { x: 60,   y: 30  },
@@ -958,6 +978,7 @@ const positions = {
 export default function PhilosopherMap() {
   const [selected, setSelected] = useState(null);
   const [hovered,  setHovered]  = useState(null);
+  const [hoveredCluster, setHoveredCluster] = useState(null);
   const [zoom, setZoom] = useState(0.44);
   const [pan,  setPan]  = useState({ x: 10, y: 20 });
   const [dragging,  setDragging]  = useState(false);
@@ -1143,28 +1164,54 @@ Answer the user's question clearly and engagingly. Be concise but substantive �
         {/* Sidebar */}
         <div style={{ width:280, borderLeft:"1px solid #121222", padding:"16px 14px",
                       overflowY:"auto", background:"#06060e", flexShrink:0 }}>
-          {!activePhil ? (
-            <>
-              <p style={{ color:"#2a2a3e", fontSize:9, letterSpacing:"0.09em",
-                          textTransform:"uppercase", marginBottom:12, marginTop:0 }}>Traditions</p>
-              {Object.entries(clusterLabels).map(([key, label]) => (
-                <div key={key} style={{ display:"flex", alignItems:"center", gap:7, marginBottom:6 }}>
-                  <div style={{ width:8, height:8, borderRadius:"50%", background:clusterColors[key], flexShrink:0 }}/>
-                  <span style={{ color:"#4e4858", fontSize:10 }}>{label}</span>
-                </div>
-              ))}
-              <div style={{ marginTop:16, padding:"10px 12px", background:"#0a0a18",
-                            borderRadius:4, border:"1px solid #131323" }}>
-                <p style={{ color:"#30304a", fontSize:9.5, lineHeight:1.9, margin:0 }}>
-                  Arrow → direction of influence<br/>
-                  Line thickness = strength<br/><br/>
-                  Click a node to see bio,<br/>
-                  connections, Wikipedia link<br/>
-                  & AI chat.
-                </p>
-              </div>
-            </>
-          ) : (
+        {!activePhil ? (
+  <>
+    <p style={{ color:"#2a2a3e", fontSize:9, letterSpacing:"0.09em",
+                textTransform:"uppercase", marginBottom:12, marginTop:0 }}>Traditions</p>
+    {Object.entries(clusterLabels).map(([key, label]) => (
+      <div key={key}
+        onMouseEnter={() => setHoveredCluster(key)}
+        onMouseLeave={() => setHoveredCluster(null)}
+        style={{ display:"flex", alignItems:"center", gap:7, marginBottom:6,
+                 cursor:"default",
+                 opacity: hoveredCluster && hoveredCluster !== key ? 0.35 : 1,
+                 transition:"opacity 0.15s" }}>
+        <div style={{ width:8, height:8, borderRadius:"50%",
+                      background:clusterColors[key], flexShrink:0 }}/>
+        <span style={{ color: hoveredCluster === key ? clusterColors[key] : "#4e4858",
+                       fontSize:10, transition:"color 0.15s" }}>{label}</span>
+      </div>
+    ))}
+    <div style={{ marginTop:16, padding:"10px 12px", background:"#0a0a18",
+                  borderRadius:4,
+                  border: hoveredCluster
+                    ? `1px solid ${clusterColors[hoveredCluster]}55`
+                    : "1px solid #131323",
+                  transition:"border-color 0.15s" }}>
+      {hoveredCluster ? (
+        <>
+          <p style={{ color:clusterColors[hoveredCluster], fontSize:10,
+                      letterSpacing:"0.06em", textTransform:"uppercase",
+                      margin:"0 0 7px", fontWeight:"bold" }}>
+            {clusterLabels[hoveredCluster]}
+          </p>
+          <p style={{ color:"#8a8278", fontSize:10, lineHeight:1.75, margin:0 }}>
+            {clusterSummaries[hoveredCluster]}
+          </p>
+        </>
+      ) : (
+        <p style={{ color:"#30304a", fontSize:9.5, lineHeight:1.9, margin:0 }}>
+          Arrow → direction of influence<br/>
+          Line thickness = strength<br/><br/>
+          Click a node to see bio,<br/>
+          connections, Wikipedia link<br/>
+          & AI chat.<br/><br/>
+          Hover a tradition above for a summary.
+        </p>
+      )}
+    </div>
+  </>
+) : (
             <>
               <div style={{ marginBottom:10 }}>
                 <div style={{ width:7, height:7, borderRadius:"50%",
