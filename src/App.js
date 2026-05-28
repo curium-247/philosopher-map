@@ -1079,7 +1079,7 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
         </span>
         <button onClick={() => { setZoom(0.44); setPan({ x:10, y:20 }); }}
           style={{ marginLeft:"auto", background:"transparent", border:"1px solid #1e1e30",
-                   color:"#3a3a52", fontSize:9, letterSpacing:"0.07em", cursor:"pointer",
+                   color:"#8a8278", fontSize:10, letterSpacing:"0.07em", cursor:"pointer",
                    padding:"4px 10px", borderRadius:3, textTransform:"uppercase", fontFamily:"Georgia,serif" }}>
           Reset View
         </button>
