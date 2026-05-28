@@ -1226,17 +1226,17 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
                             transition:"border-color 0.15s" }}>
                 {hoveredCluster ? (
                   <>
-                    <p style={{ color:clusterColors[hoveredCluster], fontSize:11.5,
+                    <p style={{ color:clusterColors[hoveredCluster], fontSize:12,
                                 letterSpacing:"0.06em", textTransform:"uppercase",
                                 margin:"0 0 8px", fontWeight:"bold" }}>
                       {clusterLabels[hoveredCluster]}
                     </p>
-                    <p style={{ color:"#8c8478", fontSize:12, lineHeight:1.7, margin:0 }}>
+                    <p style={{ color:"#a8a098", fontSize:12.5, lineHeight:1.7, margin:0 }}>
                       {clusterSummaries[hoveredCluster]}
                     </p>
                   </>
                 ) : (
-                  <p style={{ color:"#3a3a52", fontSize:11, lineHeight:1.85, margin:0 }}>
+                  <p style={{ color:"#a8a098", fontSize:12, lineHeight:1.85, margin:0 }}>
                     Arrow â†’ direction of influence<br/>
                     Line thickness = strength<br/><br/>
                     Click a node to see bio,<br/>
