@@ -1074,7 +1074,7 @@ Answer the user's question clearly and engagingly. Be concise but substantive 鈥
                      color:"#c9b97a", margin:0, textTransform:"uppercase" }}>
           Philosophical Influence Map
         </h1>
-        <span style={{ color:"#2a2a3e", fontSize:10 }}>
+        <span style={{ color:"#8a8278", fontSize:11 }}>
           {philosophers.length} thinkers 路 {Object.keys(clusterLabels).length} traditions 路 scroll to zoom 路 drag to pan 路 click to explore
         </span>
         <button onClick={() => { setZoom(0.44); setPan({ x:10, y:20 }); }}
