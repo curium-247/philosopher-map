@@ -1095,11 +1095,8 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
                 const from = positions[inf.from];
                 const to   = positions[inf.to];
                 if (!from || !to) return null;
-                const isActive = (activeId && (inf.from === activeId || inf.to === activeId)) ||
-                                 (selectedCluster && 
-                                  philosophers.find(p => p.id === inf.from)?.cluster === selectedCluster &&
-                                  philosophers.find(p => p.id === inf.to)?.cluster === selectedCluster);
-                const fade     = (activeId || selectedCluster) && !isActive;
+                const isActive = activeId && (inf.from === activeId || inf.to === activeId);
+                const fade     = (activeId && !isActive) || selectedCluster;
                 const fc = clusterColors[philosophers.find(p => p.id === inf.from)?.cluster] || "#888";
                 const tc = clusterColors[philosophers.find(p => p.id === inf.to  )?.cluster] || "#888";
                 const dx = to.x - from.x, dy = to.y - from.y;
