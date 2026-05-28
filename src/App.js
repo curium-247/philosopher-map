@@ -1181,7 +1181,7 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
                       overflowY:"auto", background:"#06060e", flexShrink:0 }}>
           {!activePhil ? (
             <>
-              <p style={{ color:"#2a2a3e", fontSize:11, letterSpacing:"0.09em",
+              <p style={{ color:"#a8a098", fontSize:12, letterSpacing:"0.09em",
                           textTransform:"uppercase", marginBottom:14, marginTop:0 }}>Traditions</p>
               {Object.entries(clusterLabels).map(([key, label]) => {
                 const isSel = selectedCluster === key;
