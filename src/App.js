@@ -346,7 +346,6 @@ const influences = [
   { from:"aristotle",   to:"pizan",        strength:1 },
   { from:"aristotle",   to:"ibn_khaldun",  strength:2 },
   { from:"aristotle",   to:"spinoza",      strength:1 },
-  { from:"aristotle",   to:"hobbes",       strength:2 },
   { from:"aristotle",   to:"mcmullin",     strength:2 },
 
   // Stoic chain
@@ -1087,7 +1086,7 @@ Answer the user's question clearly and engagingly. Be concise but substantive �
           onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
           <svg style={{ width:"100%", height:"100%" }}>
             <g transform={`translate(${pan.x},${pan.y}) scale(${zoom})`}>
-         {influences.map((inf, i) => {
+              {influences.map((inf, i) => {
                 const from = positions[inf.from];
                 const to   = positions[inf.to];
                 if (!from || !to) return null;
@@ -1173,93 +1172,93 @@ Answer the user's question clearly and engagingly. Be concise but substantive �
         </div>
 
         {/* Sidebar */}
-        <div style={{ width:380, borderLeft:"1px solid #121222", padding:"22px 20px",
-                      overflowY:"auto", background:"#06060e", flexShrink:0, fontSize:13 }}>
-        {!activePhil ? (
-  <>
-    <p style={{ color:"#2a2a3e", fontSize:9, letterSpacing:"0.09em",
-                textTransform:"uppercase", marginBottom:12, marginTop:0 }}>Traditions</p>
-    {Object.entries(clusterLabels).map(([key, label]) => (
-      <div key={key}
-        onMouseEnter={() => setHoveredCluster(key)}
-        onMouseLeave={() => setHoveredCluster(null)}
-        style={{ display:"flex", alignItems:"center", gap:7, marginBottom:6,
-                 cursor:"default",
-                 opacity: hoveredCluster && hoveredCluster !== key ? 0.35 : 1,
-                 transition:"opacity 0.15s" }}>
-        <div style={{ width:8, height:8, borderRadius:"50%",
-                      background:clusterColors[key], flexShrink:0 }}/>
-        <span style={{ color: hoveredCluster === key ? clusterColors[key] : "#4e4858",
-                       fontSize:10, transition:"color 0.15s" }}>{label}</span>
-      </div>
-    ))}
-    <div style={{ marginTop:16, padding:"10px 12px", background:"#0a0a18",
-                  borderRadius:4,
-                  border: hoveredCluster
-                    ? `1px solid ${clusterColors[hoveredCluster]}55`
-                    : "1px solid #131323",
-                  transition:"border-color 0.15s" }}>
-      {hoveredCluster ? (
-        <>
-          <p style={{ color:clusterColors[hoveredCluster], fontSize:10,
-                      letterSpacing:"0.06em", textTransform:"uppercase",
-                      margin:"0 0 7px", fontWeight:"bold" }}>
-            {clusterLabels[hoveredCluster]}
-          </p>
-          <p style={{ color:"#8a8278", fontSize:10, lineHeight:1.75, margin:0 }}>
-            {clusterSummaries[hoveredCluster]}
-          </p>
-        </>
-      ) : (
-        <p style={{ color:"#30304a", fontSize:9.5, lineHeight:1.9, margin:0 }}>
-          Arrow → direction of influence<br/>
-          Line thickness = strength<br/><br/>
-          Click a node to see bio,<br/>
-          connections, Wikipedia link<br/>
-          & AI chat.<br/><br/>
-          Hover a tradition above for a summary.
-        </p>
-      )}
-    </div>
-  </>
-) : (
+        <div style={{ width:340, borderLeft:"1px solid #121222", padding:"18px 16px",
+                      overflowY:"auto", background:"#06060e", flexShrink:0 }}>
+          {!activePhil ? (
             <>
-              <div style={{ marginBottom:10 }}>
-                <div style={{ width:7, height:7, borderRadius:"50%",
-                              background:clusterColors[activePhil.cluster], display:"inline-block", marginRight:6 }}/>
-                <span style={{ color:"#30304a", fontSize:9, textTransform:"uppercase", letterSpacing:"0.09em" }}>
+              <p style={{ color:"#2a2a3e", fontSize:11, letterSpacing:"0.09em",
+                          textTransform:"uppercase", marginBottom:14, marginTop:0 }}>Traditions</p>
+              {Object.entries(clusterLabels).map(([key, label]) => (
+                <div key={key}
+                  onMouseEnter={() => setHoveredCluster(key)}
+                  onMouseLeave={() => setHoveredCluster(null)}
+                  style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8,
+                           cursor:"default",
+                           opacity: hoveredCluster && hoveredCluster !== key ? 0.35 : 1,
+                           transition:"opacity 0.15s" }}>
+                  <div style={{ width:9, height:9, borderRadius:"50%",
+                                background:clusterColors[key], flexShrink:0 }}/>
+                  <span style={{ color: hoveredCluster === key ? clusterColors[key] : "#5e5868",
+                                 fontSize:12, transition:"color 0.15s" }}>{label}</span>
+                </div>
+              ))}
+              <div style={{ marginTop:18, padding:"12px 14px", background:"#0a0a18",
+                            borderRadius:4,
+                            border: hoveredCluster
+                              ? `1px solid ${clusterColors[hoveredCluster]}55`
+                              : "1px solid #131323",
+                            transition:"border-color 0.15s" }}>
+                {hoveredCluster ? (
+                  <>
+                    <p style={{ color:clusterColors[hoveredCluster], fontSize:11.5,
+                                letterSpacing:"0.06em", textTransform:"uppercase",
+                                margin:"0 0 8px", fontWeight:"bold" }}>
+                      {clusterLabels[hoveredCluster]}
+                    </p>
+                    <p style={{ color:"#8c8478", fontSize:12, lineHeight:1.7, margin:0 }}>
+                      {clusterSummaries[hoveredCluster]}
+                    </p>
+                  </>
+                ) : (
+                  <p style={{ color:"#3a3a52", fontSize:11, lineHeight:1.85, margin:0 }}>
+                    Arrow → direction of influence<br/>
+                    Line thickness = strength<br/><br/>
+                    Click a node to see bio,<br/>
+                    connections, Wikipedia link<br/>
+                    & AI chat.<br/><br/>
+                    Hover a tradition above for a summary.
+                  </p>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ marginBottom:11 }}>
+                <div style={{ width:8, height:8, borderRadius:"50%",
+                              background:clusterColors[activePhil.cluster], display:"inline-block", marginRight:7 }}/>
+                <span style={{ color:"#3a3a52", fontSize:11, textTransform:"uppercase", letterSpacing:"0.09em" }}>
                   {clusterLabels[activePhil.cluster]}
                 </span>
               </div>
-              <h2 style={{ fontSize:17, fontWeight:"normal", color:clusterColors[activePhil.cluster], margin:"0 0 2px" }}>
+              <h2 style={{ fontSize:19, fontWeight:"normal", color:clusterColors[activePhil.cluster], margin:"0 0 3px" }}>
                 {activePhil.name}
               </h2>
-              <p style={{ color:"#2e2e48", fontSize:10.5, margin:"0 0 10px" }}>{activePhil.dates}</p>
-              <p style={{ color:"#7a7268", fontSize:10.5, lineHeight:1.8, margin:"0 0 12px",
-                          borderLeft:`2px solid ${clusterColors[activePhil.cluster]}`, paddingLeft:9 }}>
+              <p style={{ color:"#3a3a52", fontSize:12, margin:"0 0 11px" }}>{activePhil.dates}</p>
+              <p style={{ color:"#8c8478", fontSize:12.5, lineHeight:1.75, margin:"0 0 13px",
+                          borderLeft:`2px solid ${clusterColors[activePhil.cluster]}`, paddingLeft:10 }}>
                 {activePhil.bio}
               </p>
               {activePhil.wiki && (
                 <a href={activePhil.wiki} target="_blank" rel="noreferrer"
                   style={{ display:"inline-flex", alignItems:"center", gap:5,
-                           color:clusterColors[activePhil.cluster], fontSize:9.5,
-                           textDecoration:"none", border:`1px solid ${clusterColors[activePhil.cluster]}38`,
-                           padding:"4px 9px", borderRadius:3, marginBottom:14,
+                           color:clusterColors[activePhil.cluster], fontSize:11.5,
+                           textDecoration:"none", border:`1px solid ${clusterColors[activePhil.cluster]}55`,
+                           padding:"5px 10px", borderRadius:3, marginBottom:15,
                            fontFamily:"Georgia,serif", letterSpacing:"0.04em" }}>
                   ↗ Wikipedia
                 </a>
               )}
               {connections?.influencedBy.length > 0 && (
-                <div style={{ marginBottom:11 }}>
-                  <p style={{ color:"#28283e", fontSize:9, textTransform:"uppercase", letterSpacing:"0.09em", marginBottom:5 }}>← Influenced by</p>
+                <div style={{ marginBottom:12 }}>
+                  <p style={{ color:"#3a3a52", fontSize:11, textTransform:"uppercase", letterSpacing:"0.09em", marginBottom:6 }}>← Influenced by</p>
                   {connections.influencedBy.map(id => {
                     const ph = philosophers.find(p => p.id === id);
                     return (
-                      <div key={id} style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4, cursor:"pointer" }}
+                      <div key={id} style={{ display:"flex", alignItems:"center", gap:7, marginBottom:5, cursor:"pointer" }}
                         onClick={() => setSelected(id)}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:clusterColors[ph?.cluster], flexShrink:0 }}/>
-                        <span style={{ color:"#6a6258", fontSize:10.5 }}>
-                          {ph?.name}<span style={{ color:"#242436", fontSize:9, marginLeft:4 }}>{ph?.dates}</span>
+                        <div style={{ width:7, height:7, borderRadius:"50%", background:clusterColors[ph?.cluster], flexShrink:0 }}/>
+                        <span style={{ color:"#7a7268", fontSize:12 }}>
+                          {ph?.name}<span style={{ color:"#2e2e44", fontSize:10.5, marginLeft:5 }}>{ph?.dates}</span>
                         </span>
                       </div>
                     );
@@ -1267,16 +1266,16 @@ Answer the user's question clearly and engagingly. Be concise but substantive �
                 </div>
               )}
               {connections?.influenced.length > 0 && (
-                <div style={{ marginBottom:11 }}>
-                  <p style={{ color:"#28283e", fontSize:9, textTransform:"uppercase", letterSpacing:"0.09em", marginBottom:5 }}>→ Influenced</p>
+                <div style={{ marginBottom:12 }}>
+                  <p style={{ color:"#3a3a52", fontSize:11, textTransform:"uppercase", letterSpacing:"0.09em", marginBottom:6 }}>→ Influenced</p>
                   {connections.influenced.map(id => {
                     const ph = philosophers.find(p => p.id === id);
                     return (
-                      <div key={id} style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4, cursor:"pointer" }}
+                      <div key={id} style={{ display:"flex", alignItems:"center", gap:7, marginBottom:5, cursor:"pointer" }}
                         onClick={() => setSelected(id)}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:clusterColors[ph?.cluster], flexShrink:0 }}/>
-                        <span style={{ color:"#6a6258", fontSize:10.5 }}>
-                          {ph?.name}<span style={{ color:"#242436", fontSize:9, marginLeft:4 }}>{ph?.dates}</span>
+                        <div style={{ width:7, height:7, borderRadius:"50%", background:clusterColors[ph?.cluster], flexShrink:0 }}/>
+                        <span style={{ color:"#7a7268", fontSize:12 }}>
+                          {ph?.name}<span style={{ color:"#2e2e44", fontSize:10.5, marginLeft:5 }}>{ph?.dates}</span>
                         </span>
                       </div>
                     );
@@ -1284,22 +1283,22 @@ Answer the user's question clearly and engagingly. Be concise but substantive �
                 </div>
               )}
               <button onClick={() => setSelected(null)}
-                style={{ marginTop:4, padding:"5px 10px", background:"transparent",
-                         border:"1px solid #111122", color:"#2e2e48", fontSize:9,
+                style={{ marginTop:5, padding:"6px 11px", background:"transparent",
+                         border:"1px solid #1a1a2e", color:"#3a3a52", fontSize:11,
                          letterSpacing:"0.09em", textTransform:"uppercase",
                          cursor:"pointer", borderRadius:3, width:"100%", fontFamily:"Georgia,serif" }}>
                 Clear
               </button>
 
               {/* Chat */}
-              <div style={{ marginTop:16, borderTop:"1px solid #131323", paddingTop:13 }}>
-                <p style={{ color:"#30304a", fontSize:9, textTransform:"uppercase",
-                            letterSpacing:"0.09em", margin:"0 0 9px" }}>
+              <div style={{ marginTop:18, borderTop:"1px solid #131323", paddingTop:14 }}>
+                <p style={{ color:"#3a3a52", fontSize:11, textTransform:"uppercase",
+                            letterSpacing:"0.09em", margin:"0 0 10px" }}>
                   Ask about {activePhil.name}
                 </p>
                 {(chatHistories[activePhil.id] || []).length > 0 && (
-                  <div style={{ maxHeight:260, overflowY:"auto", marginBottom:9,
-                                display:"flex", flexDirection:"column", gap:7 }}>
+                  <div style={{ maxHeight:280, overflowY:"auto", marginBottom:10,
+                                display:"flex", flexDirection:"column", gap:8 }}>
                     {(chatHistories[activePhil.id] || []).map((msg, i) => (
                       <div key={i} style={{
                         alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
@@ -1307,40 +1306,40 @@ Answer the user's question clearly and engagingly. Be concise but substantive �
                         background: msg.role === "user" ? `${clusterColors[activePhil.cluster]}22` : "#0e0e1c",
                         border: msg.role === "user" ? `1px solid ${clusterColors[activePhil.cluster]}44` : "1px solid #1a1a2e",
                         borderRadius: msg.role === "user" ? "10px 10px 2px 10px" : "10px 10px 10px 2px",
-                        padding:"7px 10px",
+                        padding:"8px 11px",
                       }}>
-                        <p style={{ margin:0, fontSize:10.5, lineHeight:1.7,
-                                    color: msg.role === "user" ? clusterColors[activePhil.cluster] : "#7a7870",
+                        <p style={{ margin:0, fontSize:12, lineHeight:1.7,
+                                    color: msg.role === "user" ? clusterColors[activePhil.cluster] : "#8c8478",
                                     fontFamily:"Georgia,serif" }}>
                           {msg.content}
                         </p>
                       </div>
                     ))}
                     {chatLoading[activePhil.id] && (
-                      <div style={{ alignSelf:"flex-start", padding:"7px 12px", background:"#0e0e1c",
+                      <div style={{ alignSelf:"flex-start", padding:"8px 13px", background:"#0e0e1c",
                                     border:"1px solid #1a1a2e", borderRadius:"10px 10px 10px 2px" }}>
-                        <span style={{ color:"#3a3a52", fontSize:10, letterSpacing:"0.1em" }}>thinking…</span>
+                        <span style={{ color:"#4a4a62", fontSize:11, letterSpacing:"0.1em" }}>thinking…</span>
                       </div>
                     )}
                     <div ref={chatEndRef}/>
                   </div>
                 )}
-                <div style={{ display:"flex", gap:6 }}>
+                <div style={{ display:"flex", gap:7 }}>
                   <input
                     value={chatInputs[activePhil.id] || ""}
                     onChange={e => setChatInputs(ci => ({ ...ci, [activePhil.id]: e.target.value }))}
                     onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(activePhil.id); }}}
                     placeholder={`Ask anything about ${activePhil.name}…`}
                     style={{ flex:1, background:"#0a0a18", border:"1px solid #1a1a2e",
-                             borderRadius:4, padding:"6px 9px", color:"#8a8278",
-                             fontSize:10.5, fontFamily:"Georgia,serif", outline:"none",
+                             borderRadius:4, padding:"8px 11px", color:"#8c8478",
+                             fontSize:12, fontFamily:"Georgia,serif", outline:"none",
                              caretColor: clusterColors[activePhil.cluster] }}
                   />
                   <button onClick={() => sendChat(activePhil.id)}
                     disabled={chatLoading[activePhil.id] || !chatInputs[activePhil.id]?.trim()}
                     style={{ background: clusterColors[activePhil.cluster], border:"none",
-                             borderRadius:4, padding:"6px 11px", color:"#0d0d14",
-                             fontSize:11, cursor:"pointer", fontFamily:"Georgia,serif", fontWeight:"bold",
+                             borderRadius:4, padding:"8px 13px", color:"#0d0d14",
+                             fontSize:13, cursor:"pointer", fontFamily:"Georgia,serif", fontWeight:"bold",
                              opacity: (chatLoading[activePhil.id] || !chatInputs[activePhil.id]?.trim()) ? 0.35 : 1 }}>
                     ↑
                   </button>
