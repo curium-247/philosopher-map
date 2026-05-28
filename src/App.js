@@ -1087,7 +1087,7 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
           onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
           <svg style={{ width:"100%", height:"100%" }}>
             <g transform={`translate(${pan.x},${pan.y}) scale(${zoom})`}>
-              {influences.map((inf, i) => {
+         {influences.map((inf, i) => {
                 const from = positions[inf.from];
                 const to   = positions[inf.to];
                 if (!from || !to) return null;
@@ -1098,12 +1098,19 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
                 const dx = to.x - from.x, dy = to.y - from.y;
                 const cx = from.x + dx*0.5 + dy*0.15;
                 const cy = from.y + dy*0.5 - dx*0.06;
-                const t = 0.87, bt = 0.77;
-                const ax  = (1-t )**2*from.x + 2*(1-t )*t *cx + t **2*to.x;
-                const ay  = (1-t )**2*from.y + 2*(1-t )*t *cy + t **2*to.y;
-                const bx2 = (1-bt)**2*from.x + 2*(1-bt)*bt*cx + bt**2*to.x;
-                const by2 = (1-bt)**2*from.y + 2*(1-bt)*bt*cy + bt**2*to.y;
-                const ang = Math.atan2(ay-by2, ax-bx2)*180/Math.PI;
+
+                // Position along the quadratic bezier curve at parameter t (0 = source, 1 = destination)
+                const bez = (t) => ({
+                  x: (1-t)**2*from.x + 2*(1-t)*t*cx + t**2*to.x,
+                  y: (1-t)**2*from.y + 2*(1-t)*t*cy + t**2*to.y,
+                });
+
+                // Two arrowheads pointing in the direction of influence
+                const a1 = bez(0.22), a1b = bez(0.12);  // source-side
+                const a2 = bez(0.85), a2b = bez(0.75);  // destination-side
+                const ang1 = Math.atan2(a1.y - a1b.y, a1.x - a1b.x) * 180/Math.PI;
+                const ang2 = Math.atan2(a2.y - a2b.y, a2.x - a2b.x) * 180/Math.PI;
+
                 const gid = `g${i}`;
                 return (
                   <g key={i}>
@@ -1118,8 +1125,12 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
                       strokeWidth={isActive ? inf.strength*2 : inf.strength*0.35}
                       strokeLinecap="round"/>
                     {isActive && (
-                      <polygon points="0,-3 6.5,0 0,3" fill={tc} opacity={0.88}
-                        transform={`translate(${ax},${ay}) rotate(${ang})`}/>
+                      <>
+                        <polygon points="0,-3 6.5,0 0,3" fill={tc} opacity={0.85}
+                          transform={`translate(${a1.x},${a1.y}) rotate(${ang1})`}/>
+                        <polygon points="0,-3 6.5,0 0,3" fill={tc} opacity={0.95}
+                          transform={`translate(${a2.x},${a2.y}) rotate(${ang2})`}/>
+                      </>
                     )}
                   </g>
                 );
