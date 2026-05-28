@@ -811,6 +811,26 @@ const clusterLabels = {
   contemporary:     "Contemporary",
 };
 
+const clusterWikis = {
+  ancient:          "https://en.wikipedia.org/wiki/Ancient_Greek_philosophy",
+  eastern:          "https://en.wikipedia.org/wiki/Eastern_philosophy",
+  stoic:            "https://en.wikipedia.org/wiki/Stoicism",
+  medieval:         "https://en.wikipedia.org/wiki/Medieval_philosophy",
+  rationalist:      "https://en.wikipedia.org/wiki/Rationalism",
+  earlymodern:      "https://en.wikipedia.org/wiki/Early_modern_philosophy",
+  "german-idealism":"https://en.wikipedia.org/wiki/German_idealism",
+  history:          "https://en.wikipedia.org/wiki/Philosophy_of_history",
+  psychoanalysis:   "https://en.wikipedia.org/wiki/Psychoanalysis",
+  analytic:         "https://en.wikipedia.org/wiki/Analytic_philosophy",
+  frankfurt:        "https://en.wikipedia.org/wiki/Frankfurt_School",
+  existential:      "https://en.wikipedia.org/wiki/Existentialism",
+  poststructural:   "https://en.wikipedia.org/wiki/Post-structuralism",
+  postcolonial:     "https://en.wikipedia.org/wiki/Postcolonialism",
+  cultural:         "https://en.wikipedia.org/wiki/Cultural_criticism",
+  critical:         "https://en.wikipedia.org/wiki/Critical_theory",
+  contemporary:     "https://en.wikipedia.org/wiki/Contemporary_philosophy",
+};
+
 const clusterSummaries = {
   ancient: "Foundational Greek thinkers from the Pre-Socratics through Aristotle, who established philosophy's core questions about being, knowledge, ethics, and the good life through dialogue and rational inquiry.",
   eastern: "Daoist, Confucian, Buddhist, and modern Japanese traditions teaching wisdom through harmony with nature, ethical relationships, the emptiness of phenomena, and the unity of pure experience.",
@@ -1218,34 +1238,50 @@ Answer the user's question clearly and engagingly. Be concise but substantive �
                   Clear Selection
                 </button>
               )}
-              <div style={{ marginTop:18, padding:"12px 14px", background:"#0a0a18",
-                            borderRadius:4,
-                            border: hoveredCluster
-                              ? `1px solid ${clusterColors[hoveredCluster]}55`
-                              : "1px solid #131323",
-                            transition:"border-color 0.15s" }}>
-                {hoveredCluster ? (
-                  <>
-                    <p style={{ color:clusterColors[hoveredCluster], fontSize:12,
-                                letterSpacing:"0.06em", textTransform:"uppercase",
-                                margin:"0 0 8px", fontWeight:"bold" }}>
-                      {clusterLabels[hoveredCluster]}
-                    </p>
-                    <p style={{ color:"#a8a098", fontSize:12.5, lineHeight:1.7, margin:0 }}>
-                      {clusterSummaries[hoveredCluster]}
-                    </p>
-                  </>
-                ) : (
-                  <p style={{ color:"#a8a098", fontSize:12, lineHeight:1.85, margin:0 }}>
-                    Arrow → direction of influence<br/>
-                    Line thickness = strength<br/><br/>
-                    Click a node to see bio,<br/>
-                    connections, Wikipedia link<br/>
-                    & chat feature.<br/><br/>
-                    Hover a tradition above for a summary.
-                  </p>
-                )}
-              </div>
+              
+                {(() => {
+                  const activeCluster = selectedCluster || hoveredCluster;
+                  return (
+                    <div style={{ marginTop:18, padding:"12px 14px", background:"#0a0a18",
+                                borderRadius:4,
+                                border: activeCluster
+                                  ? `1px solid ${clusterColors[activeCluster]}55`
+                                  : "1px solid #131323",
+                                transition:"border-color 0.15s" }}>
+                    {activeCluster ? (
+                      <>
+                        <p style={{ color:clusterColors[activeCluster], fontSize:12,
+                                    letterSpacing:"0.06em", textTransform:"uppercase",
+                                    margin:"0 0 8px", fontWeight:"bold" }}>
+                          {clusterLabels[activeCluster]}
+                        </p>
+                        <p style={{ color:"#a8a098", fontSize:12.5, lineHeight:1.7, margin:"0 0 10px" }}>
+                          {clusterSummaries[activeCluster]}
+                        </p>
+                        <a href={clusterWikis[activeCluster]} target="_blank" rel="noreferrer"
+                          style={{ display:"inline-flex", alignItems:"center", gap:5,
+                                   color:clusterColors[activeCluster], fontSize:11,
+                                   textDecoration:"none",
+                                   border:`1px solid ${clusterColors[activeCluster]}55`,
+                                   padding:"4px 9px", borderRadius:3,
+                                   fontFamily:"Georgia,serif", letterSpacing:"0.04em" }}>
+                          ↗ Wikipedia
+                        </a>
+                      </>
+                    ) : (
+                      <p style={{ color:"#a8a098", fontSize:12, lineHeight:1.85, margin:0 }}>
+                        Arrow → direction of influence<br/>
+                        Line thickness = strength<br/><br/>
+                        Click a node to see bio,<br/>
+                        connections, Wikipedia link<br/>
+                        & chat feature.<br/><br/>
+                        Hover a tradition above for a summary,<br/>
+                        click to pin it open.
+                      </p>
+                    )}
+                  </div>
+                  );
+                })()}
             </>
           ) : (
             <>
