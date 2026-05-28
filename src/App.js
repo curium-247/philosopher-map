@@ -978,6 +978,7 @@ export default function PhilosopherMap() {
   const [selected, setSelected] = useState(null);
   const [hovered,  setHovered]  = useState(null);
   const [hoveredCluster, setHoveredCluster] = useState(null);
+  const [selectedCluster, setSelectedCluster] = useState(null);
   const [zoom, setZoom] = useState(0.44);
   const [pan,  setPan]  = useState({ x: 10, y: 20 });
   const [dragging,  setDragging]  = useState(false);
@@ -990,6 +991,10 @@ export default function PhilosopherMap() {
   const activeId = hovered || selected;
 
   const isConnected = (id) => {
+    if (selectedCluster) {
+      const ph = philosophers.find(p => p.id === id);
+      return ph?.cluster === selectedCluster;
+    }
     if (!activeId) return true;
     if (id === activeId) return true;
     return influences.some(i => (i.from === activeId && i.to === id) || (i.to === activeId && i.from === id));
@@ -1178,20 +1183,41 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
             <>
               <p style={{ color:"#2a2a3e", fontSize:11, letterSpacing:"0.09em",
                           textTransform:"uppercase", marginBottom:14, marginTop:0 }}>Traditions</p>
-              {Object.entries(clusterLabels).map(([key, label]) => (
-                <div key={key}
-                  onMouseEnter={() => setHoveredCluster(key)}
-                  onMouseLeave={() => setHoveredCluster(null)}
-                  style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8,
-                           cursor:"default",
-                           opacity: hoveredCluster && hoveredCluster !== key ? 0.35 : 1,
-                           transition:"opacity 0.15s" }}>
-                  <div style={{ width:9, height:9, borderRadius:"50%",
-                                background:clusterColors[key], flexShrink:0 }}/>
-                  <span style={{ color: hoveredCluster === key ? clusterColors[key] : "#5e5868",
-                                 fontSize:12, transition:"color 0.15s" }}>{label}</span>
-                </div>
-              ))}
+              {Object.entries(clusterLabels).map(([key, label]) => {
+                const isSel = selectedCluster === key;
+                const dimmed = (hoveredCluster && hoveredCluster !== key) ||
+                               (selectedCluster && selectedCluster !== key);
+                return (
+                  <div key={key}
+                    onMouseEnter={() => setHoveredCluster(key)}
+                    onMouseLeave={() => setHoveredCluster(null)}
+                    onClick={() => {
+                      setSelectedCluster(isSel ? null : key);
+                      setSelected(null);
+                    }}
+                    style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8,
+                             cursor:"pointer",
+                             opacity: dimmed ? 0.35 : 1,
+                             transition:"opacity 0.15s" }}>
+                    <div style={{ width:9, height:9, borderRadius:"50%",
+                                  background:clusterColors[key], flexShrink:0,
+                                  boxShadow: isSel ? `0 0 0 2px ${clusterColors[key]}66` : "none" }}/>
+                    <span style={{ color: (isSel || hoveredCluster === key) ? clusterColors[key] : "#5e5868",
+                                   fontSize:12, fontWeight: isSel ? "bold" : "normal",
+                                   transition:"color 0.15s" }}>{label}</span>
+                  </div>
+                );
+              })}
+              {selectedCluster && (
+                <button onClick={() => setSelectedCluster(null)}
+                  style={{ marginTop:8, padding:"5px 10px", background:"transparent",
+                           border:`1px solid ${clusterColors[selectedCluster]}55`,
+                           color: clusterColors[selectedCluster], fontSize:10,
+                           letterSpacing:"0.09em", textTransform:"uppercase",
+                           cursor:"pointer", borderRadius:3, width:"100%", fontFamily:"Georgia,serif" }}>
+                  Clear Selection
+                </button>
+              )}
               <div style={{ marginTop:18, padding:"12px 14px", background:"#0a0a18",
                             borderRadius:4,
                             border: hoveredCluster
