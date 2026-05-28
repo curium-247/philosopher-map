@@ -1173,8 +1173,8 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
         </div>
 
         {/* Sidebar */}
-        <div style={{ width:280, borderLeft:"1px solid #121222", padding:"16px 14px",
-                      overflowY:"auto", background:"#06060e", flexShrink:0 }}>
+        <div style={{ width:380, borderLeft:"1px solid #121222", padding:"22px 20px",
+                      overflowY:"auto", background:"#06060e", flexShrink:0, fontSize:13 }}>
         {!activePhil ? (
   <>
     <p style={{ color:"#2a2a3e", fontSize:9, letterSpacing:"0.09em",
