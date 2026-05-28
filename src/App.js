@@ -1241,7 +1241,7 @@ Answer the user's question clearly and engagingly. Be concise but substantive â€
                     Line thickness = strength<br/><br/>
                     Click a node to see bio,<br/>
                     connections, Wikipedia link<br/>
-                    & AI chat.<br/><br/>
+                    & chat feature.<br/><br/>
                     Hover a tradition above for a summary.
                   </p>
                 )}
